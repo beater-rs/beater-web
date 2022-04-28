@@ -1,10 +1,7 @@
 use actix_web::{web, App, HttpServer};
-use once_cell::sync::Lazy;
-use std::{env, io::Result as IoResult, path::PathBuf};
+use std::{env, io::Result as IoResult};
 
 pub mod frontend;
-
-pub static FRONTEND_DIR: Lazy<PathBuf> = Lazy::new(|| PathBuf::from(env!("FRONTEND_DIST")));
 
 #[tokio::main]
 async fn main() -> IoResult<()> {

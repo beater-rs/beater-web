@@ -240,7 +240,6 @@ version = "0.0.0"
 dependencies = [
  "actix-web",
  "mime_guess",
- "once_cell",
  "rust-embed",
  "serde",
  "tokio",

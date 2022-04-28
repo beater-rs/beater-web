@@ -20,7 +20,7 @@ fn build_frontend(project_root: &Path) -> Result<(), std::io::Error> {
 
     if !Command::new(npm)
         .arg("run")
-        .arg("build")
+        .arg("frontend:build")
         .current_dir(project_root)
         .spawn()?
         .wait()?
