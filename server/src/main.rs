@@ -1,5 +1,7 @@
 use axum::{http::header, routing::get, Router};
 
+mod api;
+
 #[derive(rust_embed::RustEmbed)]
 #[folder = "$OUT_DIR"]
 struct Frontend;
@@ -12,6 +14,7 @@ async fn main() {
     axum::Server::bind(&addr)
         .serve(
             Router::new()
+                .route("/api/music/:song_id", get(api::get_music_file))
                 .route(
                     "/client_bg.wasm",
                     get(|| async {

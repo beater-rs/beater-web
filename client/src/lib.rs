@@ -3,13 +3,14 @@ use yew::prelude::*;
 
 enum Msg {
     AddOne,
+    SubOne,
 }
 
-struct Model {
+struct App {
     value: i64,
 }
 
-impl Component for Model {
+impl Component for App {
     type Message = Msg;
     type Properties = ();
 
@@ -25,6 +26,10 @@ impl Component for Model {
                 // re-render for it to appear on the page
                 true
             }
+            Msg::SubOne => {
+                self.value -= 1;
+                true
+            }
         }
     }
 
@@ -35,6 +40,7 @@ impl Component for Model {
             <div>
                 <button onclick={link.callback(|_| Msg::AddOne)}>{ "+1" }</button>
                 <p>{ self.value }</p>
+                <button onclick={link.callback(|_| Msg::SubOne)}>{ "-1" }</button>
             </div>
         }
     }
@@ -44,7 +50,7 @@ impl Component for Model {
 pub fn main() {
     console_error_panic_hook::set_once();
 
-    yew::start_app_in_element::<Model>(
+    yew::start_app_in_element::<App>(
         web_sys::window()
             .unwrap()
             .document()
