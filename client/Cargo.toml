@@ -24,7 +24,9 @@ console_error_panic_hook = "0.1"
 # allocator, however.
 wee_alloc = "0.4"
 
-web-sys = { version = "0.3", features = ["Window"] }
+web-sys = { version = "0.3", features = ["Window", "Document"] }
+
+yew = "0.19"
 
 [dev-dependencies]
 wasm-bindgen-test = "0.3"
