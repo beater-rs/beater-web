@@ -1,3 +1,5 @@
+bin/
+pkg/
+wasm-pack.log
 target/
-node_modules/
-dist/
+web-target/

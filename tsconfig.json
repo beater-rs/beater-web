@@ -1,8 +1,0 @@
-{
-    "compilerOptions": {
-        "moduleResolution": "node",
-        "forceConsistentCasingInFileNames": true,
-        "strict": true
-    },
-    "include": ["frontend/**/*"]
-}

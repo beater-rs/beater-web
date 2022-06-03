@@ -1,2 +1,27 @@
+[package]
+name = "server"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+axum = "0.5"
+tokio = { version = "1.18", features = ["rt-multi-thread", "macros"] }
+rust-embed = { version = "6.4", features = ["interpolate-folder-path"] }
+
+[build-dependencies]
+wasm-pack = "0.10"
+
 [workspace]
-members = ["backend"]
+members = ["src/client"]
+
+[profile.release]
+lto = true
+strip = true
+
+[profile.release.package.server]
+opt-level = 3
+
+[profile.release.package.client]
+opt-level = "s"
