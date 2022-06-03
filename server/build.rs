@@ -7,12 +7,12 @@ use wasm_pack::{
 
 fn main() {
     let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
-    let manifest_dir = Path::new(&manifest_dir);
+    let manifest_dir = Path::new(&manifest_dir).parent().unwrap();
 
     env::set_var("CARGO_TARGET_DIR", manifest_dir.join("web-target"));
 
     let opts = BuildOptions {
-        path: Some(manifest_dir.join("src").join("client")),
+        path: Some(manifest_dir.join("client")),
         scope: None,
         mode: InstallMode::Normal,
         disable_dts: true,

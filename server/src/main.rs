@@ -35,7 +35,7 @@ async fn main() {
                     get(|| async {
                         (
                             [(header::CONTENT_TYPE, "text/html")],
-                            include_str!("client/src/index.html"),
+                            include_str!("../../client/src/index.html"),
                         )
                     }),
                 )
