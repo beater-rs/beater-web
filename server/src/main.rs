@@ -8,13 +8,15 @@ struct Frontend;
 
 #[tokio::main]
 async fn main() {
+    tracing_subscriber::fmt().without_time().init();
+
     let addr = std::net::SocketAddr::from(([0, 0, 0, 0], 3000));
-    println!("listening on http://localhost:3000");
+    tracing::info!("listening on http://localhost:3000");
 
     axum::Server::bind(&addr)
         .serve(
             Router::new()
-                .route("/api/music/:song_id", get(api::get_music_file))
+                .route("/api/song/:song_id", get(api::get_music_file))
                 .route(
                     "/client_bg.wasm",
                     get(|| async {
