@@ -1,6 +1,6 @@
 use axum::{
     extract::Path,
-    http::StatusCode,
+    http::{HeaderValue, StatusCode},
     response::{IntoResponse, Response},
 };
 use axum_auth::AuthBasic;
@@ -13,7 +13,7 @@ use tokio::sync::Mutex;
 static SESSIONS: Lazy<Mutex<HashMap<(String, String), Beater>>> =
     Lazy::new(|| Mutex::new(HashMap::new()));
 
-pub async fn get_music_file(
+async fn get_music_file_(
     AuthBasic((username, password)): AuthBasic,
     Path(song_id): Path<String>,
 ) -> Response {
@@ -46,4 +46,15 @@ pub async fn get_music_file(
     } else {
         StatusCode::UNAUTHORIZED.into_response()
     }
+}
+
+pub async fn get_music_file(auth: AuthBasic, path: Path<String>) -> Response {
+    let mut res = get_music_file_(auth, path).await;
+
+    res.headers_mut().insert(
+        "Cache-Control",
+        HeaderValue::from_static("max-age=86400, stale-if-error=31536000"),
+    );
+
+    res
 }

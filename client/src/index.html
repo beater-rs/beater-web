@@ -4,9 +4,11 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script type="module">
-            import init from "/client.js";
+            import init from "/assets/client.js";
 
-            document.addEventListener("DOMContentLoaded", () => init());
+            document.addEventListener("DOMContentLoaded", () =>
+                init("/assets/client.wasm")
+            );
         </script>
         <title>Beater - Loading...</title>
     </head>

@@ -1,4 +1,8 @@
-use axum::{http::header, routing::get, Router};
+use axum::{
+    http::{header, StatusCode},
+    routing::get,
+    Router,
+};
 
 mod api;
 
@@ -18,7 +22,7 @@ async fn main() {
             Router::new()
                 .route("/api/song/:song_id", get(api::get_music_file))
                 .route(
-                    "/client_bg.wasm",
+                    "/assets/client.wasm",
                     get(|| async {
                         (
                             [(header::CONTENT_TYPE, "application/wasm")],
@@ -27,7 +31,7 @@ async fn main() {
                     }),
                 )
                 .route(
-                    "/client.js",
+                    "/assets/client.js",
                     get(|| async {
                         (
                             [(header::CONTENT_TYPE, "text/javascript")],
@@ -35,15 +39,14 @@ async fn main() {
                         )
                     }),
                 )
-                .route(
-                    "/",
-                    get(|| async {
-                        (
-                            [(header::CONTENT_TYPE, "text/html")],
-                            include_str!("../../client/src/index.html"),
-                        )
-                    }),
-                )
+                // FIXME: add a logo
+                .route("/favicon.ico", get(|| async { StatusCode::NOT_FOUND }))
+                .fallback(get(|| async {
+                    (
+                        [(header::CONTENT_TYPE, "text/html")],
+                        include_str!("../../client/src/index.html"),
+                    )
+                }))
                 .into_make_service(),
         )
         .await

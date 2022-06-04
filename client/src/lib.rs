@@ -1,47 +1,34 @@
+#![feature(explicit_generic_args_with_impl_trait)]
+
 use wasm_bindgen::prelude::*;
 use yew::prelude::*;
+use yew_router::prelude::*;
 
-enum Msg {
-    AddOne,
-    SubOne,
-}
+mod router;
+use router::{switch, Routes};
 
-struct App {
-    value: i64,
-}
+mod components;
+mod pages;
+
+struct App;
 
 impl Component for App {
-    type Message = Msg;
+    type Message = ();
     type Properties = ();
 
     fn create(_ctx: &Context<Self>) -> Self {
-        Self { value: 0 }
+        Self
     }
 
-    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
-        match msg {
-            Msg::AddOne => {
-                self.value += 1;
-                // the value has changed so we need to
-                // re-render for it to appear on the page
-                true
-            }
-            Msg::SubOne => {
-                self.value -= 1;
-                true
-            }
-        }
+    fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
+        false
     }
 
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        // This gives us a component's "`Scope`" which allows us to send messages, etc to the component.
-        let link = ctx.link();
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
-            <div>
-                <button onclick={link.callback(|_| Msg::AddOne)}>{ "+1" }</button>
-                <p>{ self.value }</p>
-                <button onclick={link.callback(|_| Msg::SubOne)}>{ "-1" }</button>
-            </div>
+            <BrowserRouter>
+                <Switch<Routes> render={Switch::render(switch)} />
+            </BrowserRouter>
         }
     }
 }
@@ -50,14 +37,7 @@ impl Component for App {
 pub fn main() {
     console_error_panic_hook::set_once();
 
-    yew::start_app_in_element::<App>(
-        web_sys::window()
-            .unwrap()
-            .document()
-            .unwrap()
-            .get_element_by_id("app")
-            .unwrap(),
-    );
+    yew::start_app_in_element::<App>(gloo::utils::document().get_element_by_id("app").unwrap());
 }
 
 #[global_allocator]
