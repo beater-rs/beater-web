@@ -29,12 +29,12 @@ pub fn login() -> Html {
     html! {
         <>
             <h1>{ "Login" }</h1>
-            <form {onsubmit}>
-                <label for="username">{ "Username" }</label>
-                <input id="username" type="text" />
-                <label for="password">{ "Password" }</label>
-                <input id="password" type="password" />
-                <button type="submit">{ "Submit" }</button>
+            <form {onsubmit} class="field">
+                <label class="label" for="username">{ "Username" }</label>
+                <input class="input" id="username" type="text" />
+                <label class="label" for="password">{ "Password" }</label>
+                <input class="input" id="password" type="password" />
+                <button class="button is-primary" type="submit">{ "Submit" }</button>
             </form>
         </>
     }

@@ -32,5 +32,7 @@ web-sys = { version = "0.3", features = ["FileReaderSync", "HtmlAudioElement"] }
 yew = "0.19"
 yew-router = "0.16"
 
+yew-style-in-rs = "0.3"
+
 [dev-dependencies]
 wasm-bindgen-test = "0.3"

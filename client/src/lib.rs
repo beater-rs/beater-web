@@ -7,29 +7,18 @@ use yew_router::prelude::*;
 mod router;
 use router::{switch, Routes};
 
-mod components;
 mod pages;
 
-struct App;
+#[function_component(App)]
+fn app() -> Html {
+    let elem = gloo::utils::document().create_element("style").unwrap();
+    elem.set_text_content(Some(include_str!("global.css")));
+    gloo::utils::head().append_child(&elem).unwrap();
 
-impl Component for App {
-    type Message = ();
-    type Properties = ();
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self
-    }
-
-    fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
-        false
-    }
-
-    fn view(&self, _ctx: &Context<Self>) -> Html {
-        html! {
-            <BrowserRouter>
-                <Switch<Routes> render={Switch::render(switch)} />
-            </BrowserRouter>
-        }
+    html! {
+        <BrowserRouter>
+            <Switch<Routes> render={Switch::render(switch)} />
+        </BrowserRouter>
     }
 }
 

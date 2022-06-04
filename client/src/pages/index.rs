@@ -18,8 +18,19 @@ pub fn index() -> Html {
             .unwrap()
             .value();
 
-        let username = LocalStorage::get::<String>("spotify_username").unwrap();
-        let password = LocalStorage::get::<String>("spotify_password").unwrap();
+        let (username, password) = match (
+            LocalStorage::get::<String>("spotify_username"),
+            LocalStorage::get::<String>("spotify_password"),
+        ) {
+            (Ok(username), Ok(password)) => (username, password),
+            _ => {
+                gloo::utils::window()
+                    .location()
+                    .set_pathname("/login")
+                    .unwrap();
+                unreachable!();
+            }
+        };
 
         wasm_bindgen_futures::spawn_local(async move {
             let response = Request::get(&format!("/api/song/{track_id}"))
@@ -55,10 +66,12 @@ pub fn index() -> Html {
 
     html! {
         <>
-            <form {onsubmit}>
-                <label for="track_id">{ "Track ID" }</label>
-                <input id="track_id" type="text" />
-                <button type="submit">{ "Submit" }</button>
+            <form {onsubmit} class="field">
+                <div class="control">
+                    <label class="label" for="track_id">{ "Track ID" }</label>
+                    <input class="input" id="track_id" type="text" />
+                    <button class="button is-primary" type="submit">{ "Submit" }</button>
+                </div>
             </form>
             <audio id="player" controls={true}></audio>
         </>
